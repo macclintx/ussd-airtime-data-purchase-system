@@ -27,6 +27,7 @@
                 }else{
 
                 //check and validate amount
+                $amount_valid = false;
                 do{
                    $amount = readline("Enter amount: ");
                 
@@ -39,14 +40,13 @@
                         echo "Not enough money in wallet\n Wallet balance: $wallet_balance\n\n";
                     
                     }else{
+                        $amount_valid = true;
                         $wallet_balance -= $amount;
-                        echo "Top up KES $amount to $phone_number succesful\n Wallet balance KES $wallet_balance\n\n";
-                        break;
-
+                        echo "Top up KES $amount to $phone_number succesful\n Wallet balance KES $wallet_balance\n\n";   
                     }
                     
 
-                }while($amount );
+                }while(!$amount_valid );
 
                 }
 
@@ -98,3 +98,5 @@
         }
 
     }while($option != 4);
+
+    //need to optimize the code
