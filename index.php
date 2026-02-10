@@ -13,33 +13,43 @@
             echo "\nBalance: KES $wallet_balance\n\n";
         }elseif($option == 2){
            
+            $number_valid = false;
            do{
 
             //check and validate number
-                $phone_number = readline("Enter phone number: "); 
-                $phone_length = strlen((string)$phone_number);
-    
-                if($phone_length < 10){
-                    echo "Phone number not complete. Re-enter\n";
+                $phone_number = readline("Enter phone number (format: 712345678): "); 
+                
+                $phone_length = strlen($phone_number);
+                echo $phone_length;
+
+
+                if(  $phone_length != 10 ){
+                    echo "\nInvalid format, more or less numbers!\n";
                     
-                }elseif($phone_length > 10){
-                    echo "Phone number has excess digits. Re-enter\n";
+                }elseif($phone_number[0] !== "0" || $phone_number[1] !== "7"){
+                    echo "\nInvalid format, number must start with (07) \n";
+                }elseif(!ctype_digit($phone_number)){
+                    echo "\nPhone number has letters\n";
                 }else{
 
-                //check and validate amount
+                //check and validate amount2
+                $number_valid = true;
                 $amount_valid = false;
                 do{
                    $amount = readline("Enter amount: ");
                 
-                    if($amount % 5 != 0){
+                    if(!ctype_digit($amount)){
+                        echo "Amount is not valid, contains letters\n\n";
+                    }elseif($amount < 10){
                         echo "amount must be a multiplier of 5\n\n";
 
-                    }elseif($amount < 10){
+                    }elseif($amount % 5 != 0){
                             echo "Minimum top up amount is 10\n\n";
                     }elseif($amount > $wallet_balance){
                         echo "Not enough money in wallet\n Wallet balance: $wallet_balance\n\n";
                     
-                    }else{
+                    }
+                    else{
                         $amount_valid = true;
                         $wallet_balance -= $amount;
                         echo "Top up KES $amount to $phone_number succesful\n Wallet balance KES $wallet_balance\n\n";   
@@ -51,7 +61,7 @@
                 }
 
                 
-           }while($phone_length != 10);
+           }while(!$number_valid);
 
          
  
